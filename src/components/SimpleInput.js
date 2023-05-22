@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 const SimpleInput = (props) => {
   const [enteredName, setEnteredName] = useState('');
+  const [enteredNameIsValid, setEnteredNameIsValid] = useState(true);
 
   const nameInputChangeHandler = (event) => {
     // event.target gives you the element that triggered the event. So, 
@@ -17,14 +18,29 @@ const SimpleInput = (props) => {
     // and it would reload the whole React application and we would lose our state.
     event.preventDefault();
 
+    // Performing some client-side validation by making sure they cannot submit with an
+    // empty input field.
+    if (enteredName.trim() === '') {
+      setEnteredNameIsValid(false);
+      // Returning from the overall function and cancelling the function execution.
+      return;
+    };
+
+    // If we get past the "if" statement above, we set enteredNameIsValid to "true".
+    setEnteredNameIsValid(true);
+
     console.log(enteredName);
     // Resetting the enteredName so that when we submit the field becomes blank again.
     setEnteredName('');
-  }
+  };
+
+  // Changing the className here based on whether or not enteredNameIsValid = true or 
+  // false so that the css styling will change depending on true or false
+  const nameInputClasses = enteredNameIsValid ? 'form-control' : 'form-control invalid';
 
   return (
     <form onSubmit={formSubmissionHandler}>
-      <div className='form-control'>
+      <div className={nameInputClasses}>
         <label htmlFor='name'>Your Name</label>
         <input 
           type='text' 
@@ -32,6 +48,7 @@ const SimpleInput = (props) => {
           onChange={nameInputChangeHandler}
           value={enteredName}
         />
+        {!enteredNameIsValid && <p className="error-text">Name must not be empty.</p>}
       </div>
       <div className="form-actions">
         <button>Submit</button>
