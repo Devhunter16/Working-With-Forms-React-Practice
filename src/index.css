@@ -29,6 +29,7 @@ body {
 .form-control input,
 .form-control label {
   display: block;
+  margin-top: 0.5rem;
 }
 
 .form-control label {
@@ -77,6 +78,15 @@ button:hover,
 button:active {
   background-color: #33059e;
   border-color: #33059e;
+}
+
+button:disabled,
+button:disabled:hover,
+button:disabled:active {
+  background-color: #ccc;
+  color: #292929;
+  border-color: #ccc;
+  cursor: not-allowed;
 }
 
 .form-actions {
